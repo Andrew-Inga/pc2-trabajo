@@ -154,3 +154,5 @@ class RepositorioSolicitudEnMemoria(SolicitudRepository):
 def get_solicitud_repository() -> SolicitudRepository:
     """Provee una instancia singleton del repositorio (DI para FastAPI)."""
     return RepositorioSolicitudEnMemoria()
+
+

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, status
-
+from src.repositorios.solicitud_repo import SolicitudRepositorySingleton
 from src.logging_config import get_logger
 from src.modelos.voto import AuditoriaVotos, VotoCifrado, VotoInput
 from src.servicios.voto_service import VotoService, get_voto_service
@@ -11,6 +11,8 @@ from src.servicios.voto_service import VotoService, get_voto_service
 logger = get_logger(__name__)
 
 router: APIRouter = APIRouter(prefix="/api", tags=["votacion"])
+router = APIRouter()
+repo = SolicitudRepositorySingleton() 
 
 
 @router.post(
@@ -43,6 +45,11 @@ async def registrar_voto(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=str(exc),
         ) from exc
+
+
+@router.get("/auditoria")
+def obtener_votos():
+    return repo.obtener_todos_los_votos()
 
 
 @router.get(

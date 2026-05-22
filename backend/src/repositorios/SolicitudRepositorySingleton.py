@@ -7,7 +7,7 @@ class SolicitudRepositorySingleton:
             # Inicializamos la "base de datos" en memoria por única vez
             cls._instancia.votos_almacenados = []
             cls._instancia.solicitudes_derivadas = []
-            print("📦 Repositorio en memoria inicializado.")
+            print(" Repositorio en memoria inicializado.")
         return cls._instancia
 
     def guardar_voto(self, voto_cifrado):

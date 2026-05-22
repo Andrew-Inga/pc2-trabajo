@@ -12,7 +12,7 @@ romper el contrato publico (DIP).
 """
 
 from __future__ import annotations
-
+from src.modelos.tramite_factory import DerivacionFactory
 from datetime import date, datetime, time, timedelta, timezone
 from functools import lru_cache
 from threading import Lock
@@ -34,6 +34,16 @@ DIAS_HABILES_RESPUESTA: int = 30
 WEEKEND: frozenset[int] = frozenset({5, 6})
 
 
+
+def derivar_solicitud(dependencia_str: str, datos_ciudadano: dict):
+    # La fábrica crea el objeto correcto automáticamente
+    tramite = DerivacionFactory.crear_tramite(dependencia_str)
+    info_proceso = tramite.procesar_derivacion()
+    
+    return {
+        "status": "Derivado exitosamente",
+        "detalles": info_proceso
+    }
 def sumar_dias_habiles(inicio: date, dias: int) -> date:
     """Suma ``dias`` habiles a ``inicio`` saltando sabados y domingos.
 

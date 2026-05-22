@@ -11,6 +11,7 @@ import time
 from functools import lru_cache
 from threading import Lock
 
+from src.servicios.voto_builder import VotoSeguroBuilder
 from src.config import settings
 from src.excepciones.errors import VotoDuplicadoError
 from src.logging_config import get_logger
@@ -35,6 +36,16 @@ class VotoService:
         self._votos: list[VotoCifrado] = []
         self._hashes: set[str] = set()
         self._lock: Lock = Lock()
+
+    def emitir_voto(dni: str, candidato_id: str):
+        # Construcción paso a paso y encadenada
+        comprobante = (VotoSeguroBuilder()
+                    .aplicar_cifrado(dni, candidato_id)
+                    .generar_llave_genetica()
+                    .estampar_tiempo()
+                    .construir())
+        
+        return comprobante
 
     def registrar_voto(self, voto: VotoInput) -> VotoCifrado:
         """Registra un voto generando llave evolutiva y hash SHA-256.
